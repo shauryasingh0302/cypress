@@ -3,10 +3,15 @@ import appBanner from "../../public/appBanner.png";
 import Cal from "../../public/cal.png";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { CLIENTS, USERS } from "@/lib/constants";
+import { CLIENTS, PRICING_CARDS, PRICING_PLANS, USERS } from "@/lib/constants";
 import { randomUUID } from "crypto";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
+import CustomCard from "@/components/landing-page/custom-card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { CardContent, CardDescription, CardTitle } from "@/components/ui/card";
+import Diamond from "../../public/icons/diamond.svg";
+import CheckIcon from "../../public/icons/check.svg";
 
 const HomePage = () => {
     return (
@@ -17,15 +22,12 @@ const HomePage = () => {
                     title="All-In-One Collaboration and Productivity Platform"
                 />
                 <div className="bg-white p-0.5 mt-6 rounded-3xl bg-linear-to-r from-primary to-brand-primary-blue sm:w-75">
-                    <Button
-                        variant="secondary"
-                        className="w-full rounded-3xl p-6 text-2xl bg-background"
-                    >
+                    <Button variant="secondary" className="w-full rounded-3xl p-6 text-2xl bg-background">
                         Get Cypress Free
                     </Button>
                 </div>
 
-                <div className="md:-mt-22.5 sm:w-full w-187.5 flex justify-center items-center -mt-10 relative sm:ml-0 -ml-12.5">
+                <div className="md:-mt-[22.5px] sm:w-full w-[187.5px] flex justify-center items-center -mt-10 relative sm:ml-0 -ml-[12.5px]">
                     <Image src={appBanner} alt="Application Banner" />
                     <div className="bottom-0 top-[50%] bg-linear-to-t dark:from-background left-0 right-0 absolute z-10" />
                 </div>
@@ -33,48 +35,17 @@ const HomePage = () => {
 
             <section className="relative">
                 <div
-                    className="overflow-hidden
-                    flex
-                    after:content['']
-                    after:dark:from-brand-dark
-                    after:to-transparent
-                    after:from-background
-                    after:bg-gradient-to-l
-                    after:right-0
-                    after:bottom-0
-                    after:top-0
-                    after:w-20
-                    after:z-10
-                    after:absolute
-
-                    before:content['']
-                    before:dark:from-brand-dark
-                    before:to-transparent
-                    before:from-background
-                    before:bg-gradient-to-r
-                    before:left-0
-                    before:top-0
-                    before:bottom-0
-                    before:w-20
-                    before:z-10
-                    before:absolute"
+                    className="overflow-hidden flex
+                        after:content-[''] after:dark:from-brand-dark after:to-transparent after:from-background
+                        after:bg-gradient-to-l after:right-0 after:bottom-0 after:top-0 after:w-20 after:z-10 after:absolute
+                        before:content-[''] before:dark:from-brand-dark before:to-transparent before:from-background
+                        before:bg-gradient-to-r before:left-0 before:top-0 before:bottom-0 before:w-20 before:z-10 before:absolute"
                 >
                     {[...Array(2)].map((_, index) => (
-                        <div
-                            key={index}
-                            className="flex flex-nowrap animate-slide"
-                        >
+                        <div key={index} className="flex flex-nowrap animate-slide">
                             {CLIENTS.map((client) => (
-                                <div
-                                    key={client.alt}
-                                    className="relative w-[200px] m-20 shrink-0 flex items-center"
-                                >
-                                    <Image
-                                        src={client.logo}
-                                        alt={client.alt}
-                                        width={200}
-                                        className="object-contain max-w-none"
-                                    />
+                                <div key={client.alt} className="relative w-[200px] m-20 shrink-0 flex items-center">
+                                    <Image src={client.logo} alt={client.alt} width={200} className="object-contain max-w-none" />
                                 </div>
                             ))}
                         </div>
@@ -90,32 +61,111 @@ const HomePage = () => {
                     pill="Features"
                 />
                 <div className="mt-10 max-w-[450px] flex justify-center items-center relative sm:ml-0 rounded-2xl border-8 border-washed-purple-300/10">
-                    <Image src={Cal} alt="Banner" className="rounded-2xl"/>
+                    <Image src={Cal} alt="Banner" className="rounded-2xl" />
                 </div>
             </section>
 
             <section className="relative">
-                <div className="w-full blur-[120px] rounded-full h-32 absolute bg-brand-primary-purple/50 -z-10 top-56"/>
+                <div className="w-full blur-[120px] rounded-full h-32 absolute bg-brand-primary-purple/50 -z-10 top-56" />
                 <div className="mt-20 px-4 sm:px-6 flex flex-col overflow-x-hidden overflow-visible">
-                    <TitleSection pill="Testimonials" title="Trusted by all" subheading="Join thousands of satisfied users who rely on our platform for their personal and professional productivity needs."/>
-                    {[...Array(2)].map((arr, index)=>(
-                        <div key={randomUUID()} className={twMerge(clsx('mt-10 flex flex-nowrap gap-6 self-start',{
-                            'flex-row-reverse': index===1,
-                            'animate-[slide_250s_linear_infinite]':true,
-                            'animate-[slide_250s_linear_infinite_reverse]':index===1,
-                            'ml-[100vw]':index===1,
-                        }),
-                        'hover:paused'
-                    )}>
-                        {USERS.map((testimonial, index)=>(
-                            <CustomCard/>
-                        ))}
-                    </div>
+                    <TitleSection
+                        pill="Testimonials"
+                        title="Trusted by all"
+                        subheading="Join thousands of satisfied users who rely on our platform for their personal and professional productivity needs."
+                    />
+                    {[...Array(2)].map((arr, index) => (
+                        <div
+                            key={randomUUID()}
+                            className={twMerge(
+                                clsx("mt-10 flex flex-nowrap gap-6 self-start", {
+                                    "flex-row-reverse": index === 1,
+                                    "animate-[slide_250s_linear_infinite]": true,
+                                    "[animation-direction:reverse]": index === 1,
+                                    "ml-[100vw]": index === 1,
+                                }),
+                                "paused-on-hover",
+                            )}
+                        >
+                            {USERS.map((testimonial, index) => (
+                                <CustomCard
+                                    key={testimonial.name}
+                                    className="w-[500px] shrink-0 rounded-xl dark:bg-gradient-to-t dark:from-border dark:to-background"
+                                    cardHeader={
+                                        <div className="flex items-center gap-4">
+                                            <Avatar>
+                                                <AvatarImage src={`/avatars/${index + 1}.png`} />
+                                                <AvatarFallback>AV</AvatarFallback>
+                                            </Avatar>
+                                            <div>
+                                                <CardTitle className="text-foreground">{testimonial.name}</CardTitle>
+                                                <CardDescription className="dark:text-washed-purple-800">
+                                                    {testimonial.name.toLocaleLowerCase()}
+                                                </CardDescription>
+                                            </div>
+                                        </div>
+                                    }
+                                    cardContent={<p className="dark:text-washed-purple-800">{testimonial.message}</p>}
+                                />
+                            ))}
+                        </div>
                     ))}
                 </div>
             </section>
 
-
+            <section className="mt-20 px-4 sm:px-6 relative">
+                <div className="w-full blur-[120px] rounded-full h-32 absolute bg-brand-primary-blue/20 -z-10 top-1/2 -translate-y-1/2" />
+                <TitleSection
+                    title="The Perfect Plan For You"
+                    subheading="Experience all the benefits of our platform. Select a plan that suits your needs and take your productivity to new heights."
+                    pill="Pricing"
+                />
+                <div className="flex flex-col-reverse sm:flex-row gap-4 justify-center sm:items-stretch items-center mt-10">
+                    {PRICING_CARDS.map((card) => (
+                        <CustomCard
+                            key={card.planType}
+                            className={clsx("w-[300px] rounded-2xl dark:bg-black/60 backdrop-blur-3xl relative", {
+                                "border-brand-primary-purple/70": card.planType === PRICING_PLANS.proplan,
+                            })}
+                            cardHeader={
+                                <CardTitle className="text-2xl font-semibold">
+                                    {card.planType === PRICING_PLANS.proplan && (
+                                        <>
+                                            <div className="hidden dark:block w-full blur-[120px] rounded-full h-32 absolute bg-brand-primary-purple/80 -z-10 top-0" />
+                                            <Image src={Diamond} alt="Pro Plan Icon" className="absolute top-6 right-6" />
+                                        </>
+                                    )}
+                                    {card.planType}
+                                </CardTitle>
+                            }
+                            cardContent={
+                                <CardContent className="p-0">
+                                    <span className="font-normal text-2xl">${card.price}</span>
+                                    {+card.price > 0 ? (
+                                        <span className="dark:text-washed-purple-800 ml-1">/mo</span>
+                                    ) : (
+                                        ""
+                                    )}
+                                    <p className="dark:text-washed-purple-800">{card.description}</p>
+                                    <Button variant="default" className="whitespace-nowrap w-full mt-4">
+                                        {card.planType === PRICING_PLANS.proplan ? "Go Pro" : "Get Started"}
+                                    </Button>
+                                </CardContent>
+                            }
+                            cardFooter={
+                                <ul className="font-normal flex mb-2 flex-col gap-4">
+                                    <small>{card.highlightFeature}</small>
+                                    {card.freatures.map((feature) => (
+                                        <li key={feature} className="flex items-center gap-2">
+                                            <Image src={CheckIcon} alt="Check Icon" />
+                                            {feature}
+                                        </li>
+                                    ))}
+                                </ul>
+                            }
+                        />
+                    ))}
+                </div>
+            </section>
         </>
     );
 };

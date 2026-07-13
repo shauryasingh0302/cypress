@@ -1,0 +1,10 @@
+import { useRouter } from "next/router";
+import { useState } from "react";
+
+const LoginPage = () => {
+    const router = useRouter();
+    const [submitError, setSubmitError] = useState('');
+    return <div>LoginPage</div>;
+};
+
+export default LoginPage;
