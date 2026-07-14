@@ -30,6 +30,7 @@ const LoginPage = () => {
   ) => {
     const { error } = await actionLoginUser(formData);
     if (error) {
+      
       form.reset();
       setSubmitError(error.message);
     }
