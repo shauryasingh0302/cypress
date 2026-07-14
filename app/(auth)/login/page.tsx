@@ -83,6 +83,7 @@ const LoginPage = () => {
       </div>
       <div>
         <Input
+        
           type="password"
           placeholder="Password"
           disabled={isLoading}
