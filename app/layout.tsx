@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Geist, Geist_Mono, Inter, DM_Sans } from "next/font/google";
 import "./globals.css";
 import db from "@/lib/db/db";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/lib/providers/next-theme-provider";
+import { twMerge } from "tailwind-merge";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const inter = DM_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -40,7 +41,7 @@ export default function RootLayout({
                 inter.variable,
             )}
         >
-            <body className="min-h-full flex flex-col">
+            <body className={twMerge('min-h-full flex flex-col bg-background', inter.className)}>
                 <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>{children}</ThemeProvider>
             </body>
         </html>

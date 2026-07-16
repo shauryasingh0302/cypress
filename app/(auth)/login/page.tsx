@@ -47,7 +47,7 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="w-full flex justify-center items-center min-h-screen">
+        <div className="w-full flex justify-center items-center min-h-screen px-4">
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 onChange={() => submitError && setSubmitError("")}
@@ -63,7 +63,7 @@ const LoginPage = () => {
                         priority
                     />
 
-                    <span className="text-4xl font-semibold tracking-tight dark:text-white">
+                    <span className="text-3xl sm:text-4xl font-semibold tracking-tight dark:text-white">
                         cypress.
                     </span>
                 </Link>
