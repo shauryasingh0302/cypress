@@ -38,14 +38,16 @@ const SignupPage = () => {
         const { error } = await actionSignUpUser(formData);
 
         if (error) {
+            
             form.reset();
             setSubmitError(error.message);
             return;
+
         }
 
         router.replace("/login");
 
-        
+
     };
 
     return (
