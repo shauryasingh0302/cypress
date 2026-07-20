@@ -44,6 +44,8 @@ const SignupPage = () => {
         }
 
         router.replace("/login");
+
+        
     };
 
     return (
