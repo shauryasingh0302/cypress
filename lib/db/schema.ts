@@ -4,7 +4,6 @@ import {
     uuid,
     timestamp,
     text,
-    foreignKey,
     jsonb,
     boolean,
     bigint,

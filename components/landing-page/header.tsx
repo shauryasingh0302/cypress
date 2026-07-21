@@ -9,18 +9,12 @@ import {
     NavigationMenuItem,
     NavigationMenuList,
     NavigationMenuTrigger,
-    NavigationMenuLink
-    
+    NavigationMenuLink,
+    navigationMenuTriggerStyle,
 } from "../ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import React from "react";
-
-const routes = [
-    { title: "Features", href: "#features" },
-    { title: "Resources", href: "#resources" },
-    { title: "Pricing", href: "#pricing" },
-    { title: "Testimonials", href: "#testimonials" },
-];
+import { Button } from "../ui/button";
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -61,12 +55,12 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 const Header = () => {
-    const [path, setPath] = useState("#products");
+    const [path, setPath] = useState("");
     return (
         <header className="p-4 flex justify-center items-center">
             <Link
                 href="/"
-                className="w-full flex gap-2 justify-left items-center"
+                className="w-full flex gap-2 justify-start items-center"
             >
                 <Image
                     src="/cypresslogo.svg"
@@ -97,11 +91,100 @@ const Header = () => {
                                         Welcome
                                     </span>
                                 </li>
+                                <ListItem href="#" title="Introduction">
+                                    Re-usable components built using Radix UI
+                                    and Tailwind CSS
+                                </ListItem>
+                                <ListItem href="#" title="Installation">
+                                    How to install dependencies and structure
+                                    your app.
+                                </ListItem>
+                                <ListItem href="#" title="Typography">
+                                    Styles for headings, paragraphs, lists...etc
+                                </ListItem>
                             </ul>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <NavigationMenuTrigger
+                            onClick={() => setPath("#pricing")}
+                            className={cn({
+                                "dark:text-white": path === "#pricing",
+                                "dark:text-white/40": path !== "#pricing",
+                                "font-normal": true,
+                                "text-xl": true,
+                            })}
+                        >
+                            Pricing
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                            <ul className="grid w-[400px] gap-3 p-4 md:grid-flow-2">
+                                <ListItem title="Pro Plan" href="#">
+                                    Unlock full power with collaboration.
+                                </ListItem>
+                                <ListItem title="Free Plan" href="#">
+                                    Great for teams just starting out.
+                                </ListItem>
+                            </ul>
+                        </NavigationMenuContent>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <NavigationMenuTrigger
+                            className={cn({
+                                "dark:text-white": path === "#components",
+                                "dark:text-white/40": path !== "#components",
+                                "font-normal": true,
+                                "text-xl": true,
+                            })}
+                        >
+                            Components
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                            <ul className=" grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                                {components.map((component) => (
+                                    <ListItem
+                                        key={component.title}
+                                        title={component.title}
+                                        href={component.href}
+                                    >
+                                        {component.description}
+                                    </ListItem>
+                                ))}
+                            </ul>
+                        </NavigationMenuContent>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <NavigationMenuLink
+                            className={cn(navigationMenuTriggerStyle(), {
+                                "dark:text-white": path === "#testimonials",
+                                "dark:text-white/40": path !== "#testimonials",
+                                "font-normal": true,
+                                "text-xl": true,
+                            })}
+                        >
+                            Testimonials
+                        </NavigationMenuLink>
+                    </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
+            <aside className="flex w-full gap-2 justify-end">
+                <Link href={"/login"}>
+                    <Button
+                        variant={"btn-secondary"}
+                        className={"p-1 hidden sm:block mr-3"}
+                    >
+                        Login
+                    </Button>
+                </Link>
+                <Link href={"/signup"}>
+                    <Button
+                        variant={"btn-primary"}
+                        className={"whitespace-nowrap"}
+                    >
+                        Sign Up
+                    </Button>
+                </Link>
+            </aside>
         </header>
     );
 };
@@ -111,11 +194,17 @@ export default Header;
 const ListItem = React.forwardRef<
     React.ElementRef<"a">,
     React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
+>(({ title, children, ...props }, ref) => {
     return (
         <li>
-            <NavigationMenuLink asChild>
-                <a ref={ref} className={cn('group block select-none space-y-1 font-medium leading-none')} {...props}>
+            <NavigationMenuLink>
+                <a
+                    ref={ref}
+                    className={cn(
+                        "group block select-none space-y-1 font-medium leading-none",
+                    )}
+                    {...props}
+                >
                     <div className="text-white text-sm font-medium leading-none">
                         {title}
                     </div>

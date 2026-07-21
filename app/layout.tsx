@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter, DM_Sans } from "next/font/google";
+import { Geist, Geist_Mono, DM_Sans } from "next/font/google";
 import "./globals.css";
-import db from "@/lib/db/db";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/lib/providers/next-theme-provider";
 import { twMerge } from "tailwind-merge";
