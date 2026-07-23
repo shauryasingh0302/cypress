@@ -8,7 +8,7 @@ import {
     CardHeader,
     CardTitle,
 } from "../ui/card";
-import { FieldValues, Form, useForm } from "react-hook-form";
+import { FieldValues, Form, useForm, SubmitHandler } from "react-hook-form";
 import EmojiPicker from "../global/emoji-picker";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -16,6 +16,8 @@ import { Subscription } from "@/utils/supabase/supabase-types";
 import { CreateWorkspaceFormSchema } from "@/lib/types";
 import { z } from "zod";
 import { v4 } from "uuid";
+import { createClient } from "@/utils/supabase/client";
+import { toast } from "../ui/toast";
 interface DashboardSetupProps {
     user: AuthUser;
     subscription: Subscription | null;
@@ -38,12 +40,35 @@ const DashboardSetup: React.FC<DashboardSetupProps> = ({
             workspaceName: "",
         },
     });
+    const supabase = createClient();
 
-    const onSubmit:SumbitHandler<z.infer<typeof CreateWorkspaceFormSchema>> = async (value) =>{
-        const file = value.worksapceLogo?.[0];
+    const onSubmit: SubmitHandler<
+        z.infer<typeof CreateWorkspaceFormSchema>
+    > = async (value) => {
+        const file = value.workspaceLogo?.[0];
         let filePath = null;
         const workspaceUUID = v4();
-    }
+        console.log(file);
+
+        if (file) {
+            try {
+                const { data, error } = await supabase.storage
+                    .from("workspace-logos")
+                    .upload(`workspaceLogo.${workspaceUUID}`, file, {
+                        cacheControl: "3600",
+                        upsert: true,
+                    });
+                if (error) throw new Error("");
+                filePath = data.path;
+            } catch (error) {
+                console.log("Error: ", error);
+                toast.add({
+                    type: "error",
+                    title: `Error! Could not upload your workspace logo`,
+                });
+            }
+        }
+    };
 
     return (
         <Card className="w-[800px] h-screen sm:h-auto">

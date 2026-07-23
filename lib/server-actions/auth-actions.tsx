@@ -1,36 +1,16 @@
 'use server';
 
 import { z } from 'zod';
-import { createServerClient } from '@supabase/ssr';
 import { FormSchema } from '../types';
 import { cookies } from 'next/headers';
-
-async function createClient() {
-  const cookieStore = await cookies();
-
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            cookieStore.set(name, value, options);
-          });
-        },
-      },
-    }
-  );
-}
+import { createClient as createSupabaseClient } from '@/utils/supabase/server';
 
 export async function actionLoginUser({
   email,
   password,
 }: z.infer<typeof FormSchema>) {
-  const supabase = await createClient();
+  const cookieStore = await cookies();
+  const supabase = createSupabaseClient(cookieStore);
 
   return await supabase.auth.signInWithPassword({
     email,
@@ -42,7 +22,8 @@ export async function actionSignUpUser({
   email,
   password,
 }: z.infer<typeof FormSchema>) {
-  const supabase = await createClient();
+  const cookieStore = await cookies();
+  const supabase = createSupabaseClient(cookieStore);
 
   const { data } = await supabase
     .from('profiles')
