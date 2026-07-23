@@ -197,21 +197,19 @@ const ListItem = React.forwardRef<
 >(({ title, children, ...props }, ref) => {
     return (
         <li>
-            <NavigationMenuLink>
-                <a
-                    ref={ref}
-                    className={cn(
-                        "group block select-none space-y-1 font-medium leading-none",
-                    )}
-                    {...props}
-                >
-                    <div className="text-white text-sm font-medium leading-none">
-                        {title}
-                    </div>
-                    <p className="group-hover:text-white/70 line-clamp-2 text-sm leading-snug text-white/40">
-                        {children}
-                    </p>
-                </a>
+            <NavigationMenuLink
+                ref={ref}
+                className={cn(
+                    "group block select-none space-y-1 font-medium leading-none",
+                )}
+                {...props}
+            >
+                <div className="text-white text-sm font-medium leading-none">
+                    {title}
+                </div>
+                <p className="group-hover:text-white/70 line-clamp-2 text-sm leading-snug text-white/40">
+                    {children}
+                </p>
             </NavigationMenuLink>
         </li>
     );

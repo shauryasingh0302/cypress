@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,8 +36,7 @@ const FormSchema = z
         path: ["confirmPassword"],
     });
 
-const SignupPage = () => {
-    const router = useRouter();
+const SignupPageContent = () => {
     const searchParams = useSearchParams();
 
     const codeExchangeError = useMemo(() => {
@@ -46,7 +45,7 @@ const SignupPage = () => {
     }, [searchParams]);
 
     const [submitError, setSubmitError] = useState("");
-    const [confirmation] = useState(false);
+    const [confirmation, setConfirmation] = useState(false);
 
     const form = useForm<z.infer<typeof FormSchema>>({
         mode: "onChange",
@@ -81,7 +80,9 @@ const SignupPage = () => {
             return;
         }
 
-        router.replace("/login");
+        setConfirmation(true);
+
+        // router.replace("/login");
     };
 
     return (
@@ -200,11 +201,22 @@ const SignupPage = () => {
                                 ? "Invalid Link"
                                 : "Check your mail"}
                         </AlertTitle>
-                        <AlertDescription>{codeExchangeError || 'An email confirmation has been sent.'}</AlertDescription>
+                        <AlertDescription>
+                            {codeExchangeError ||
+                                "An email confirmation has been sent."}
+                        </AlertDescription>
                     </Alert>
                 )}
             </form>
         </div>
+    );
+};
+
+const SignupPage = () => {
+    return (
+        <Suspense>
+            <SignupPageContent />
+        </Suspense>
     );
 };
 
